@@ -39,23 +39,27 @@
                                 <tr>
                                     <td class="shoping__cart__item">
                                         <img src="img/cart/cart-1.jpg" alt="">
-                                        <h5>Vegetable’s Package</h5>
+                                        <h5>{{ $cart->model->name }}</h5>
                                     </td>
                                     <td class="shoping__cart__price">
-                                        $55.00
+                                        {{ $cart->model->getPrice() }}
                                     </td>
                                     <td class="shoping__cart__quantity">
                                         <div class="quantity">
                                             <div class="pro-qty">
-                                                <input type="text" value="1">
+                                                <input type="text" value="{{ $cart->quantity }}">
                                             </div>
                                         </div>
                                     </td>
                                     <td class="shoping__cart__total">
-                                        $110.00
+                                        {{ getSingleProductTotal($cart->model->price,$cart->quantity) }}
                                     </td>
                                     <td class="shoping__cart__item__close">
-                                        <span class="icon_close"></span>
+                                        <form action="{{ route('cart.destroy', $cart->model->id) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"><span class="icon_close"></span></button>
+                                        </form>
                                     </td>
                                 </tr>
                             @empty
@@ -69,9 +73,9 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="shoping__cart__btns">
-                        <a href="#" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
-                        <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>
-                            Upadate Cart</a>
+                        <a href="{{ route('shops.index') }}" class="primary-btn cart-btn">CONTINUE SHOPPING</a>
+{{--                        <a href="#" class="primary-btn cart-btn cart-btn-right"><span class="icon_loading"></span>--}}
+{{--                            Upadate Cart</a>--}}
                     </div>
                 </div>
                 <div class="col-lg-6">
@@ -89,8 +93,8 @@
                     <div class="shoping__checkout">
                         <h5>Cart Total</h5>
                         <ul>
-                            <li>Subtotal <span>$454.98</span></li>
-                            <li>Total <span>$454.98</span></li>
+                            <li>Subtotal <span>{{ !empty($cart) ? 'Rp. '.amount_international_with_comma(\Cart::getSubTotal()) : 'Rp. 0' }}</span></li>
+                            <li>Total <span>{{ !empty($cart) ? 'Rp. '.amount_international_with_comma(\Cart::getTotal()) : 'Rp. 0' }}</span></li>
                         </ul>
                         <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
                     </div>

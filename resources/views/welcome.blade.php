@@ -40,7 +40,7 @@
             <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
             <li><a href="{{ route('cart.index') }}"><i class="fa fa-shopping-bag"></i> <span>{{ \Cart::getContent()->count() }}</span></a></li>
         </ul>
-        <div class="header__cart__price">item: <span>$150.00</span></div>
+        <div class="header__cart__price">item: <span>{{ amount_international_with_comma(\Cart::getTotal()) }}</span></div>
     </div>
     <div class="humberger__menu__widget">
         <div class="header__top__right__language">
@@ -157,7 +157,7 @@
                         <li><a href="#"><i class="fa fa-heart"></i> <span>1</span></a></li>
                         <li><a href="{{ route('cart.index') }}"><i class="fa fa-shopping-bag"></i> <span>{{ \Cart::getContent()->count() }}</span></a></li>
                     </ul>
-                    <div class="header__cart__price">item: <span>$150.00</span></div>
+                    <div class="header__cart__price">item: <span>{{ 'Rp. '.amount_international_with_comma(\Cart::getTotal()) }}</span></div>
                 </div>
             </div>
         </div>
