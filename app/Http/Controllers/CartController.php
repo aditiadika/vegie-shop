@@ -11,8 +11,10 @@ class CartController extends Controller
     public function index()
     {
         $carts = \Cart::getContent();
+        $subTotal = 'Rp. '.amount_international_with_comma(\Cart::getSubTotal());
+        $total = 'Rp. '.amount_international_with_comma(\Cart::getTotal());
 
-        return view('cart', compact('carts'));
+        return view('cart', compact('carts', 'subTotal', 'total'));
     }
 
     public function store(Request $request)
@@ -39,5 +41,14 @@ class CartController extends Controller
 
         toast('Your item has ben deleted.', 'success');
         return back();
+    }
+
+    public function checkout()
+    {
+        $carts = \Cart::getContent();
+        $subTotal = 'Rp. '.amount_international_with_comma(\Cart::getSubTotal());
+        $total = 'Rp. '.amount_international_with_comma(\Cart::getTotal());
+
+        return view('checkout', compact('carts', 'subTotal', 'total'));
     }
 }

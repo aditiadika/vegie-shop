@@ -2,24 +2,23 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Category;
 use App\Models\Product;
-use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
-        $latestProductFirst = Product::with('category')->latest()->inRandomOrder()->take(3)->get();
-        $latestProductTwo = Product::with('category')->latest()->inRandomOrder()->take(3)->get();
-
+        $category = \request('category');
         $products  = Product::with('category')->inRandomOrder()->paginate(12);
         $sales = Product::with('category')->sale()->get();
 
-        return view('shops', compact('categories', 'latestProductFirst', 'latestProductTwo',
-            'products', 'sales'
-        ));
+        if (isset($category)){
+            $products = Product::whereHas('category', function ($query) use ($category){
+                $query->where('name', $category);
+            })->paginate(12);
+        }
+
+        return view('shops', compact('products', 'sales'));
     }
 
     public function show(Product $product)

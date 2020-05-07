@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
-    public function __invoke()
+    public function home()
     {
         $categories = Category::all();
         $latestProductFirst = Product::with('category')->latest()->inRandomOrder()->take(3)->get();
@@ -21,5 +21,10 @@ class HomeController extends Controller
         return view('welcome', compact('categories', 'latestProductFirst', 'latestProductTwo', 'topRatedOne', 'topRatedTwo',
             'reviewProductOne', 'reviewProductTwo'
         ));
+    }
+
+    public function index()
+    {
+        return view('home');
     }
 }

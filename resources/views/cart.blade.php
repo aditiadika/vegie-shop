@@ -93,10 +93,14 @@
                     <div class="shoping__checkout">
                         <h5>Cart Total</h5>
                         <ul>
-                            <li>Subtotal <span>{{ !empty($cart) ? 'Rp. '.amount_international_with_comma(\Cart::getSubTotal()) : 'Rp. 0' }}</span></li>
-                            <li>Total <span>{{ !empty($cart) ? 'Rp. '.amount_international_with_comma(\Cart::getTotal()) : 'Rp. 0' }}</span></li>
+                            <li>Subtotal <span>{{ $subTotal }}</span></li>
+                            <li>Total <span>{{ $total }}</span></li>
                         </ul>
-                        <a href="#" class="primary-btn">PROCEED TO CHECKOUT</a>
+                        @if ($carts->isEmpty())
+                                <a class="primary-btn">PROCEED TO CHECKOUT</a>
+                        @else
+                            <a href="{{ route('checkout.index') }}" class="primary-btn">PROCEED TO CHECKOUT</a>
+                        @endif
                     </div>
                 </div>
             </div>
