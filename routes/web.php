@@ -15,4 +15,10 @@ Route::middleware('guest')->namespace('Auth')->group(function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::prefix('dashboard')->namespace('Dashboard')->middleware('auth')->group(function (){
+    Route::get('home', 'DashboardController@index')->name('dashboard');
+    Route::resource('product', 'ProductController');
+});
+
+
+
