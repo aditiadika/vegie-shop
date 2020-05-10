@@ -18,7 +18,7 @@
     <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
     <link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/font-awesome/css/all.min.css') }}" rel="stylesheet">
-
+    <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
 
     <!-- Theme Styles -->
     <link href="{{ asset('assets/css/connect.min.css') }}" rel="stylesheet">
@@ -32,7 +32,8 @@
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
-</head>
+    <livewire:styles>
+    </head>
 <body>
 <div class='loader'>
     <div class='spinner-grow text-primary' role='status'>
@@ -52,6 +53,9 @@
 
 <!-- Javascripts -->
 <script src="{{ asset('assets/plugins/jquery/jquery-3.4.1.min.js') }}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/df-number-format/2.1.6/jquery.number.min.js"></script>
+<script src="{{ asset('assets/plugins/select2/js/select2.full.min.js') }}"></script>
+<script src="{{ asset('assets/js/pages/select2.js') }}"></script>
 <script src="{{ asset('assets/plugins/bootstrap/popper.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/bootstrap/js/bootstrap.min.js') }}"></script>
 <script src="{{ asset('assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js') }}"></script>
@@ -65,5 +69,16 @@
 <script src="{{ asset('assets/plugins/flot/jquery.flot.tooltip.min.js') }}"></script>
 <script src="{{ asset('assets/js/connect.min.js') }}"></script>
 <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script>
+<livewire:scripts>
+<script>
+    $(document).ready(function() {
+        $('.separator.currency').number(true, 2);
+        $('.separator').not('.separator.currency').number(true, 0);
+        $('.separator').keyup(function() {
+            $(this).next('.separator-hidden').val($(this).val());
+        });
+    });
+</script>
+@yield('scripts')
 </body>
 </html>

@@ -11,7 +11,7 @@
                     </ol>
                 </nav>
                 <div class="page-options">
-                    <a href="#" class="btn btn-primary">Add Product</a>
+                    <a href="{{ route('product.create') }}" class="btn btn-primary">Add Product</a>
                 </div>
             </div>
         </div>
