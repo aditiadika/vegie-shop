@@ -17,14 +17,6 @@
         </div>
     </div>
     <div class="main-wrapper container">
-        <div class="row">
-            <div class="col">
-                <div class="card">
-                    <div class="card-body">
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis, nobis, quo. Beatae cupiditate dolores doloribus ipsa laudantium molestiae nisi odio quisquam quo quod rem repellendus rerum sint soluta, temporibus voluptatum.
-                    </div>
-                </div>
-            </div>
-        </div>
+        <livewire:product />
     </div>
 @endsection

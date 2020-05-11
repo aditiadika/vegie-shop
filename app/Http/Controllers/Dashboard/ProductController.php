@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -21,7 +22,32 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        dd($request->all());
+//        $this->validate($request, [
+//            'category_id' => 'required|integer',
+//            'name' => 'required',
+//            'is_sale' => 'required|bool',
+//            'price_before_sale' => 'exclude_if:is_sale,true|required|numeric',
+//            'discount' => 'exclude_if:is_sale,true|required|numeric',
+//            'price' => 'required|numeric',
+//            'description' => 'required',
+//            'weight' => 'required',
+//            'quantity' => 'required|numeric'
+//        ]);
+
+        $product = new Product;
+        $product->category_id = $request->category_id;
+        $product->name = $request->name;
+        $product->is_sale = $request->is_sale;
+        $product->price_before_sale = $request->price_before_sale;
+        $product->discount = $request->discount;
+        $product->price = $request->price;
+        $product->description = $request->description;
+        $product->weight = $request->weight;
+        $product->quantity = $request->quantity;
+        $product->save();
+
+        toast('Your product has been created','success');
+        return redirect()->route('product.index');
     }
 
     /**
