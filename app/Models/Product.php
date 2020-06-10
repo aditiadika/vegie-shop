@@ -4,19 +4,21 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
+use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 
-class Product extends Model
+class Product extends Model implements HasMedia
 {
-    use SoftDeletes, HasSlug;
+    use SoftDeletes, HasSlug, HasMediaTrait;
 
     protected $guarded = [];
 
     /**
      * Get the options for generating the slug.
      */
-    public function getSlugOptions() : SlugOptions
+    public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
             ->generateSlugsFrom('name')
@@ -40,16 +42,16 @@ class Product extends Model
 
     public function getPrice()
     {
-        return 'Rp. ' .amount_international_with_comma($this->price);
+        return 'Rp. ' . amount_international_with_comma($this->price);
     }
 
     public function getDiscount()
     {
-        return '-' .$this->discount.'%';
+        return '-' . $this->discount . '%';
     }
 
     public function getPriceBeforeDiscount()
     {
-        return 'Rp. ' .amount_international_with_comma($this->price_before_sale);
+        return 'Rp. ' . amount_international_with_comma($this->price_before_sale);
     }
 }

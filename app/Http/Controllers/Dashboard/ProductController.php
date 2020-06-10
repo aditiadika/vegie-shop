@@ -22,17 +22,17 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-//        $this->validate($request, [
-//            'category_id' => 'required|integer',
-//            'name' => 'required',
-//            'is_sale' => 'required|bool',
-//            'price_before_sale' => 'exclude_if:is_sale,true|required|numeric',
-//            'discount' => 'exclude_if:is_sale,true|required|numeric',
-//            'price' => 'required|numeric',
-//            'description' => 'required',
-//            'weight' => 'required',
-//            'quantity' => 'required|numeric'
-//        ]);
+        $this->validate($request, [
+            'category_id' => 'required|integer',
+            'name' => 'required',
+            'is_sale' => 'required',
+            'price_before_sale' => 'required_if:is_sale,==,true',
+            'discount' => 'required_if:is_sale,==,true',
+            'price' => 'required|numeric',
+            'description' => 'required',
+            'weight' => 'required',
+            'quantity' => 'required|numeric'
+        ]);
 
         $product = new Product;
         $product->category_id = $request->category_id;
@@ -46,7 +46,13 @@ class ProductController extends Controller
         $product->quantity = $request->quantity;
         $product->save();
 
-        toast('Your product has been created','success');
+        if (request()->hasFile('file')) {
+            foreach (request()->file as $key) {
+                $product->addMedia($key)->preservingOriginal()->toMediaCollection('products');
+            }
+        }
+
+        toast('Your product has been created', 'success');
         return redirect()->route('product.index');
     }
 
@@ -69,7 +75,11 @@ class ProductController extends Controller
      */
     public function edit($id)
     {
-        //
+        $product = Product::find($id);
+        $categories = Category::where('status', true)->get();
+        $media = $product->getMedia('products');
+
+        return view('dashboard.product.edit', compact('categories', 'product', 'media'));
     }
 
     /**

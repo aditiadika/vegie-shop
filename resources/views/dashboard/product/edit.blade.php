@@ -8,7 +8,7 @@
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Apps</a></li>
                         <li class="breadcrumb-item" aria-current="page">Product</li>
-                        <li class="breadcrumb-item active" aria-current="page">Create</li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit</li>
                     </ol>
                 </nav>
                 <div class="page-options">
@@ -25,29 +25,29 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
-                        <form method="POST" action="{{ route('product.store') }}">
+                        <form method="POST" action="{{ route('product.update', $product->id) }}">
                             @csrf
                             <div class="form-group{{ $errors->has('name') ? ' has-error' : '' }}">
                                 <label for="name">Name</label>
-                                <input name="name" type="text" class="form-control" placeholder="Banana" value="{{ old('name') }}">
+                                <input name="name" type="text" class="form-control" placeholder="Banana" value="{{ $product->name }}">
                                 <small class="text-danger">{{ $errors->first('name') }}</small>
                             </div>
                             <div class="form-group{{ $errors->has('description') ? ' has-error' : '' }}">
                                 <label for="description">Description</label>
-                                <textarea name="description" class="form-control" id="" cols="30" rows="2"></textarea>
+                                <textarea name="description" class="form-control" id="" cols="30" rows="2">{{ $product->description }}</textarea>
                                 <small class="text-danger">{{ $errors->first('description') }}</small>
                             </div>
                             <div class="form-group">
                                 <label for="exampleInputPassword1">Sale?</label>
                                 <select name="is_sale" id="is_sale" class="form-control">
-                                    <option value="false">No</option>
-                                    <option value="true">Yes</option>
+                                    <option value="false" {{ $product->is_sale == "false" ? 'selected' : '' }}>No</option>
+                                    <option value="true" {{ $product->is_sale == "true" ? 'selected' : '' }}>Yes</option>
                                 </select>
                             </div>
                             <div class="form-group">
                                 <label for="sale">Price Before Sale</label>
-                                <input type="text" class="form-control separator currency" id="sale_price" value="{{ old('price_before_sale') }}" placeholder="1.000.000" disabled>
-                                <input type="hidden" name="price_before_sale" class="separator-hidden" value="{{ old('price_before_sale') }}">
+                                <input type="text" class="form-control separator currency" id="sale_price" value="{{ $product->price_before_sale }}" placeholder="1.000.000" disabled>
+                                <input type="hidden" name="price_before_sale" class="separator-hidden" value="{{ $product->price_before_sale }}">
                             </div>
                             <div class="form-group">
                                 <label for="discount">Discount in percent</label>
@@ -55,26 +55,25 @@
                             </div>
                             <div class="form-group{{ $errors->has('price') ? ' has-error' : '' }}">
                                 <label for="price">Price</label>
-                                <input type="text" class="form-control separator currency" value="{{ old('price') }}" placeholder="1.000.000">
-                                <input type="hidden" name="price" class="separator-hidden" value="{{ old('price') }}">
+                                <input type="text" class="form-control separator currency" value="{{ $product->price }}" placeholder="1.000.000">
+                                <input type="hidden" name="price" class="separator-hidden" value="{{ $product->price }}">
                                 <small class="text-danger">{{ $errors->first('price') }}</small>
                             </div>
                             <div class="form-group{{ $errors->has('quantity') ? ' has-error' : '' }}">
                                 <label for="qty">Quantity</label>
-                                <input type="number" name="quantity" class="form-control" placeholder="100" value="{{ old('quantity') }}">
+                                <input type="number" name="quantity" class="form-control" placeholder="100" value="{{ $product->quantity }}">
                                 <small class="text-danger">{{ $errors->first('quantity') }}</small>
                             </div>
                             <div class="form-group{{ $errors->has('weight') ? ' has-error' : '' }}">
                                 <label for="weight">Weight</label>
-                                <input type="text" name="weight" class="form-control" id="exampleInputPassword1" placeholder="1 KG" value="{{ old('weight') }}">
+                                <input type="text" name="weight" class="form-control placeholder="1 KG" value="{{ $product->weight }}">
                                 <small class="text-danger">{{ $errors->first('weight') }}</small>
                             </div>
                             <div class="form-group{{ $errors->has('category_id') ? ' has-error' : '' }}">
-                                <label for="exampleInputPassword1">Category</label>
+                                <label>Category</label>
                                 <select name="category_id" class="form-control" tabindex="-1" style="display: none; width: 100%">
-                                    <option></option>
                                     @foreach($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                        <option value="{{ $category->id }}" @if ($category->id == $product->category_id) selected="selected"@endif>{{ $category->name }}</option>
                                     @endforeach
                                 </select>
                                 <small class="text-danger">{{ $errors->first('category_id') }}</small>
@@ -84,10 +83,12 @@
                                     <a class="btn btn-success white add-image-btn float-right" data-name="file"><i
                                     class="icon wb-plus"></i>Add More Photo</a>
                                 </div>
-                                @foreach (range(1, 4) as $i)
+                                @foreach($media as $index => $val)
                                 <div class='form-group col-md-3'>
-                                    <input type='file' name='file[{{ $i }}]' class="dropify" id='input-file-max-fs'
-                                    data-plugin='dropify' data-height='160px' data-max-file-size='5M'
+                                    <input type="file" name='file[]' data-id="{{$val->id }}"
+                                    data-default-file="{{ asset($val->getUrl()) }}"
+                                    class="dropify" id='input-file-max-fs'
+                                    data-plugin='dropify' data-height='160px' data-max-file-size='2M'
                                     data-allowed-file-extensions="png jpg jpeg bmp gif pdf"/>
                                 </div>
                                 @endforeach

@@ -19,7 +19,7 @@
     <link href="{{ asset('assets/plugins/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/font-awesome/css/all.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
-
+    <link rel="stylesheet" href="https://lib.arvancloud.com/ar/Dropify/0.2.2/css/dropify.css">
     <!-- Theme Styles -->
     <link href="{{ asset('assets/css/connect.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/admin2.css') }}" rel="stylesheet">

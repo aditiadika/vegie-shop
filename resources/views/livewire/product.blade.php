@@ -10,7 +10,7 @@
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
                                        aria-expanded="false"><i class="material-icons">more_vert</i></a>
                                     <div class="dropdown-menu dropdown-menu-right">
-                                        <a class="dropdown-item" href="#">Edit</a>
+                                        <a class="dropdown-item" href="{{ route('product.edit', $product->id) }}">Edit</a>
                                         <a class="dropdown-item" href="#">Delete</a>
                                         <a class="dropdown-item" href="#">View Details</a>
                                     </div>
